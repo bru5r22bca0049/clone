@@ -1,0 +1,665 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lookhe | Shopping
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+body{
+    background:#eaeded;
+    font-family:Arial,sans-serif;
+}
+
+/* HERO */
+
+.hero-slider img{
+    height:500px;
+    object-fit:cover;
+    border-radius:18px;
+}
+
+.carousel-caption{
+    bottom:80px;
+    text-align:left;
+}
+
+.carousel-caption h1{
+    font-size:55px;
+    font-weight:800;
+}
+
+.carousel-caption p{
+    font-size:20px;
+}
+
+/* CATEGORY */
+
+.category-section{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    margin-top:-50px;
+    position:relative;
+    z-index:10;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.category-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.category-scroll{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+
+.category-scroll::-webkit-scrollbar{
+    display:none;
+}
+
+.category-card{
+    min-width:140px;
+    background:#f8fafc;
+    border-radius:16px;
+    padding:18px;
+    text-align:center;
+    text-decoration:none;
+    color:#111;
+    transition:0.3s;
+    border:1px solid #eee;
+}
+
+.category-card:hover{
+    transform:translateY(-5px);
+    background:#111827;
+    color:white;
+}
+
+.category-icon{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+/* TOP HEADER */
+
+.top-section{
+    background:white;
+    padding:25px 30px;
+    border-radius:18px;
+    margin:35px 0;
+    border:1px solid #ddd;
+}
+
+.top-title{
+    font-size:34px;
+    font-weight:800;
+    color:#111;
+}
+
+.top-subtitle{
+    color:#565959;
+    margin-bottom:0;
+}
+
+/* PRODUCT CARD */
+
+.product-card{
+    background:white;
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    transition:0.3s;
+    height:100%;
+    position:relative;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 12px 30px rgba(0,0,0,0.14);
+}
+
+/* IMAGE */
+
+.image-box{
+    background:#f8fafc;
+    height:300px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.product-image{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    transition:0.4s;
+}
+
+.product-card:hover .product-image{
+    transform:scale(1.06);
+}
+
+/* BADGE */
+
+.offer-badge{
+    position:absolute;
+    top:14px;
+    left:14px;
+    background:#e11d48;
+    color:white;
+    padding:6px 12px;
+    border-radius:50px;
+    font-size:12px;
+    font-weight:700;
+    z-index:2;
+}
+
+.match-badge{
+    position:absolute;
+    top:54px;
+    left:14px;
+    background:#f59e0b;
+    color:white;
+    padding:6px 12px;
+    border-radius:50px;
+    font-size:12px;
+    font-weight:700;
+    z-index:2;
+}
+
+/* WISHLIST */
+
+.wishlist-btn{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:42px;
+    height:42px;
+    background:white;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-size:18px;
+    color:#dc3545;
+    z-index:2;
+    border:1px solid #eee;
+    transition:0.3s;
+}
+
+.wishlist-btn:hover{
+    background:#dc3545;
+    color:white;
+}
+
+/* BODY */
+
+.card-body{
+    padding:20px;
+}
+
+.product-title{
+    font-size:18px;
+    font-weight:700;
+    color:#111827;
+    line-height:1.5;
+    min-height:55px;
+}
+
+.product-title:hover{
+    color:#f97316;
+}
+
+/* RATING */
+
+.rating{
+    color:#f59e0b;
+    font-size:15px;
+}
+
+.rating-count{
+    color:#0284c7;
+    font-size:14px;
+    margin-left:6px;
+}
+
+/* PRICE */
+
+.price-section{
+    margin-top:10px;
+}
+
+.old-price{
+    color:#64748b;
+    font-size:14px;
+    text-decoration:line-through;
+}
+
+.price{
+    font-size:30px;
+    font-weight:800;
+    color:#111827;
+}
+
+.deal-text{
+    color:#e11d48;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* DESCRIPTION */
+
+.description{
+    font-size:14px;
+    color:#64748b;
+    line-height:1.7;
+    margin-top:10px;
+    min-height:65px;
+}
+
+/* BUTTONS */
+
+.btn-cart{
+    background:#facc15;
+    border:none;
+    border-radius:50px;
+    color:#111;
+    font-weight:700;
+    padding:11px;
+}
+
+.btn-cart:hover{
+    background:#eab308;
+}
+
+.btn-buy{
+    background:#f97316;
+    border:none;
+    border-radius:50px;
+    color:white;
+    font-weight:700;
+    padding:11px;
+}
+
+.btn-buy:hover{
+    background:#ea580c;
+}
+
+.btn-view{
+    border-radius:50px;
+    font-weight:700;
+}
+
+/* EMPTY */
+
+.empty-box{
+    background:white;
+    border-radius:18px;
+    padding:80px 30px;
+    text-align:center;
+}
+
+</style>
+
+<div class="container py-4">
+  {% if not query %}
+    <!-- HERO CAROUSEL -->
+
+    <div id="heroCarousel"
+         class="carousel slide hero-slider mb-4"
+         data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600"
+                     class="d-block w-100">
+
+                <div class="carousel-caption">
+
+                    <h1>
+                        Fashion Collection
+                    </h1>
+
+                    <p>
+                        Trending styles for everyday shopping
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="carousel-item">
+
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600"
+                     class="d-block w-100">
+
+                <div class="carousel-caption">
+
+                    <h1>
+                        Casual Lifestyle
+                    </h1>
+
+                    <p>
+                        Smart shopping starts here
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#heroCarousel"
+                data-bs-slide="prev">
+
+            <span class="carousel-control-prev-icon"></span>
+
+        </button>
+
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#heroCarousel"
+                data-bs-slide="next">
+
+            <span class="carousel-control-next-icon"></span>
+
+        </button>
+
+    </div>
+
+    <!-- CATEGORY SECTION -->
+
+    <div class="category-section">
+
+        <a href="?category={{ category.id }}"
+   class="category-card {% if request.GET.category == category.id|stringformat:'s' %}bg-dark text-white{% endif %}">
+
+        <h2 class="category-title">
+            Shop By Category
+        </h2>
+
+        <div class="category-scroll">
+
+            {% for category in categories %}
+
+            <a href="?category={{ category.id }}"
+               class="category-card">
+
+                <div class="category-icon">
+                    🛍️
+                </div>
+
+                <div class="fw-bold">
+                    {{ category.name }}
+                </div>
+
+            </a>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+   {% endif %} 
+
+    <!-- HEADER -->
+
+    <div class="top-section d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+       {% if query %}
+
+         <h1 class="top-title">
+        🔍 Search Results
+        </h1>
+
+        <p class="top-subtitle">
+         Found {{ products|length }} product(s) for "{{ query }}"
+        </p>
+
+        {% else %}
+
+        <h1 class="top-title">
+         Welcome to Lookhe 🛒
+        </h1>
+
+        <p class="top-subtitle">
+         Discover premium products & daily deals
+        </p>
+
+       {% endif %}
+
+    </div>
+
+        <a href="{% url 'add_product' %}"
+           class="btn btn-dark rounded-pill px-4 fw-semibold">
+
+            + Add Product
+
+        </a>
+
+    </div>
+
+    <!-- PRODUCTS -->
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
+
+        {% if products %}
+
+            {% for product in products %}
+
+            <div class="col">
+
+                <div class="card product-card">
+
+                    <div class="image-box">
+
+                        {% if product.old_price %}
+                        <div class="offer-badge">
+                            DEAL
+                        </div>
+                        {% endif %}
+
+                        {% if query and query|lower in product.name|lower %}
+                        <div class="match-badge">
+                            MATCH
+                        </div>
+                        {% endif %}
+
+                        <a href="{% url 'add_to_wishlist' product.id %}"
+                           class="wishlist-btn">
+
+                            ❤️
+
+                        </a>
+
+                        {% if product.image and product.image.name %}
+
+                            <img src="{{ product.image.url }}"
+                                 class="product-image">
+
+                        {% elif product.image_url %}
+
+                            <img src="{{ product.image_url }}"
+                                 class="product-image">
+
+                        {% else %}
+
+                            <img src="https://via.placeholder.com/500x500"
+                                 class="product-image">
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+
+                        <h5 class="product-title">
+
+                            {{ product.name }}
+
+                        </h5>
+
+                        <div class="mb-2">
+
+                            <span class="rating">
+                                ★★★★★
+                            </span>
+
+                            <span class="rating-count">
+                                4.8
+                            </span>
+
+                        </div>
+
+                        
+
+                        <div class="price-section">
+
+                            {% if product.old_price %}
+
+                            <div class="old-price">
+
+                                ₹{{ product.old_price }}
+
+                            </div>
+
+                            {% endif %}
+
+                            <div class="price">
+
+                                ₹{{ product.price }}
+
+                            </div>
+
+                            {% if product.old_price %}
+
+                            <div class="deal-text">
+
+                                Limited Time Deal
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                        <p class="description">
+
+                            {{ product.description|truncatewords:12 }}
+
+                        </p>
+
+                        <div class="mt-auto d-grid gap-2">
+
+                            <a href="{% url 'product_detail' product.id %}"
+                               class="btn btn-outline-dark btn-view">
+
+                                View Details
+
+                            </a>
+
+                            <a href="{% url 'add_to_cart' product.id %}"
+                               class="btn btn-cart">
+
+                                Add to Cart
+
+                            </a>
+
+                            <a href="{% url 'buy_now' product.id %}"
+                               class="btn btn-buy">
+
+                                Buy Now
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="col-12">
+
+            <div class="empty-box">
+
+                <h1 style="font-size:90px;">
+                    📦
+                </h1>
+
+                {% if query %}
+
+<h2 class="fw-bold mb-3">
+    No Products Found
+</h2>
+
+<p class="text-muted mb-4">
+    No results found for "{{ query }}"
+</p>
+
+<a href="{% url 'home' %}"
+   class="btn btn-dark rounded-pill px-5">
+
+    Back To Home
+
+</a>
+
+{% else %}
+
+<h2 class="fw-bold mb-3">
+    No Products Available
+</h2>
+
+<p class="text-muted mb-4">
+    Add products to start selling online
+</p>
+
+<a href="{% url 'add_product' %}"
+   class="btn btn-dark rounded-pill px-5">
+
+    Add Product
+
+</a>
+
+{% endif %}
+
+                <a href="{% url 'add_product' %}"
+                   class="btn btn-dark rounded-pill px-5">
+
+                    Add Product
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

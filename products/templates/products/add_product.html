@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Sell Product
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.sell-page{
+    min-height: 100vh;
+    background:
+    linear-gradient(to right,#f8fafc,#eef2ff);
+    padding: 60px 0;
+}
+
+.sell-card{
+    border: none;
+    border-radius: 28px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+}
+
+.sell-left{
+    background:
+    linear-gradient(135deg,#0f172a,#1e293b);
+    color: white;
+    padding: 60px 45px;
+    height: 100%;
+    position: relative;
+}
+
+.sell-left::before{
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:rgba(255,255,255,0.05);
+    border-radius:50%;
+    top:-50px;
+    right:-50px;
+}
+
+.sell-icon{
+    width:95px;
+    height:95px;
+    border-radius:24px;
+    background:rgba(255,255,255,0.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    margin-bottom:30px;
+}
+
+.sell-left h1{
+    font-size:42px;
+    font-weight:800;
+}
+
+.sell-left p{
+    color:#cbd5e1;
+    line-height:1.9;
+    margin-top:18px;
+}
+
+.tips-box{
+    background:white;
+    padding:22px;
+    border-radius:18px;
+    margin-top:35px;
+}
+
+.tips-box li{
+    margin-bottom:12px;
+    color:#475569;
+}
+
+.sell-right{
+    padding:55px;
+}
+
+.sell-title{
+    font-size:34px;
+    font-weight:800;
+    margin-bottom:35px;
+    color:#111827;
+}
+
+.form-label{
+    font-weight:700;
+    margin-bottom:10px;
+    color:#111827;
+}
+
+.form-control,
+.form-select,
+textarea{
+    border-radius:16px !important;
+    padding:15px !important;
+    border:1px solid #d1d5db !important;
+    box-shadow:none !important;
+    transition:0.3s;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus{
+    border-color:#f59e0b !important;
+    box-shadow:0 0 0 4px rgba(245,158,11,0.15) !important;
+}
+
+.upload-box{
+    border:2px dashed #cbd5e1;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    background:#f9fafb;
+    transition:0.3s;
+}
+
+.upload-box:hover{
+    border-color:#f59e0b;
+    background:#fff7ed;
+}
+
+.upload-icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.upload-btn{
+    background:
+    linear-gradient(to right,#f59e0b,#f97316);
+    border:none;
+    padding:16px;
+    border-radius:16px;
+    font-size:18px;
+    font-weight:700;
+    transition:0.3s;
+}
+
+.upload-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(249,115,22,0.35);
+}
+
+.preview-box{
+    background:#f8fafc;
+    border-radius:18px;
+    padding:18px;
+    margin-top:25px;
+}
+
+.preview-box img{
+    width:100%;
+    max-height:220px;
+    object-fit:cover;
+    border-radius:14px;
+}
+
+@media(max-width:768px){
+
+    .sell-left{
+        padding:40px 30px;
+    }
+
+    .sell-right{
+        padding:35px 25px;
+    }
+
+    .sell-title{
+        font-size:28px;
+    }
+
+}
+
+</style>
+
+<div class="sell-page">
+
+    <div class="container">
+
+        <div class="card sell-card">
+
+            <div class="row g-0">
+
+                <!-- LEFT -->
+
+                <div class="col-lg-5">
+
+                    <div class="sell-left">
+
+                        <div class="sell-icon">
+                            🛍️
+                        </div>
+
+                        <h1>
+                            Start Selling
+                        </h1>
+
+                        <p>
+                            Grow your business online and reach
+                            thousands of customers through your
+                            modern marketplace store.
+                        </p>
+
+                        <div class="tips-box">
+
+                            <h5 class="fw-bold text-dark mb-3">
+                                Seller Tips
+                            </h5>
+
+                            <ul>
+                                <li>Use high-quality product images</li>
+                                <li>Add clear descriptions</li>
+                                <li>Keep pricing competitive</li>
+                                <li>Choose the correct category</li>
+                                <li>Use attractive product titles</li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <div class="col-lg-7">
+
+                    <div class="sell-right">
+
+                        <h2 class="sell-title">
+                            Upload Product
+                        </h2>
+
+                        <form method="POST"
+                              enctype="multipart/form-data">
+
+                            {% csrf_token %}
+
+                            <!-- PRODUCT NAME -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Product Name
+                                </label>
+
+                                {{ form.name }}
+
+                            </div>
+
+                            <!-- CATEGORY -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Category
+                                </label>
+
+                                {{ form.category }}
+
+                            </div>
+
+                            <!-- DESCRIPTION -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Product Description
+                                </label>
+
+                                {{ form.description }}
+
+                            </div>
+
+                            <!-- PRICE -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Product Price
+                                </label>
+
+                                {{ form.price }}
+
+                            </div>
+
+                            <!-- IMAGE -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Upload Product Image
+                                </label>
+
+                                <div class="upload-box">
+
+                                    <div class="upload-icon">
+                                        📸
+                                    </div>
+
+                                    {{ form.image }}
+
+                                    <p class="text-muted mt-3 mb-0">
+                                        PNG, JPG supported
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <!-- IMAGE URL -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+                                    Product Image URL
+                                </label>
+
+                                {{ form.image_url }}
+
+                            </div>
+
+                            <!-- BUTTON -->
+
+                            <button type="submit"
+                                    class="btn upload-btn text-white w-100">
+
+                                🚀 Upload Product
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

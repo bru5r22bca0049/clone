@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-5">
+
+        <div class="cart shadow-lg border-0 rounded-4 p-4 mt-5">
+
+            <!-- Heading -->
+
+            <div class="text-center mb-4">
+
+                <h2 class="fw-bold">
+                    Create Account 🚀
+                </h2>
+
+                <p class="text-muted">
+                    Join and start shopping today
+                </p>
+
+            </div>
+
+            <!-- Register Form -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <!-- Username -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+
+                        Username
+
+                    </label>
+
+                    <input type="text"
+                           name="username"
+                           placeholder="Enter username"
+                           class="form-control form-control-lg rounded-3"
+                           required>
+
+                </div>
+
+                <!-- Email -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+
+                        Email Address
+
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           placeholder="Enter email"
+                           class="form-control form-control-lg rounded-3"
+                           required>
+
+                </div>
+
+                <!-- Password -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+
+                        Password
+
+                    </label>
+
+                    <input type="password"
+                           name="password"
+                           placeholder="Create password"
+                           class="form-control form-control-lg rounded-3"
+                           required>
+
+                </div>
+
+                <!-- Button -->
+
+                <div class="d-grid">
+
+                    <button type="submit"
+                            class="btn btn-warning btn-lg rounded-3 fw-bold">
+
+                        Register
+
+                    </button>
+
+                </div>
+
+            </form>
+
+            <!-- Footer -->
+
+            <hr class="my-4">
+
+            <div class="text-center">
+
+                <p class="mb-0">
+
+                    Already have an account?
+
+                    <a href="{% url 'login' %}"
+                       class="text-decoration-none fw-bold">
+
+                        Login
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

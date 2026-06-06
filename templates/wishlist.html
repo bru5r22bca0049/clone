@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Wishlist
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#eaeaea;
+    }
+
+    /* ================= HEADER ================= */
+
+    .wishlist-header{
+        background:white;
+        border-radius:18px;
+        padding:30px;
+        box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .wishlist-title{
+        font-size:34px;
+        font-weight:700;
+        color:#111;
+    }
+
+    .wishlist-subtitle{
+        color:#666;
+        margin-top:5px;
+    }
+
+    .wishlist-count{
+        background:#131921;
+        color:white;
+        padding:12px 24px;
+        border-radius:50px;
+        font-weight:600;
+        font-size:15px;
+    }
+
+    /* ================= CARD ================= */
+
+    .wishlist-card{
+        border:none;
+        border-radius:18px;
+        overflow:hidden;
+        background:white;
+        transition:0.3s;
+        height:100%;
+        box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .wishlist-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    /* ================= IMAGE ================= */
+
+    .image-box{
+        height:260px;
+        background:#fff;
+        overflow:hidden;
+        position:relative;
+    }
+
+    .product-image{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        transition:0.4s;
+    }
+
+    .wishlist-card:hover .product-image{
+        transform:scale(1.05);
+    }
+
+    /* ================= BADGE ================= */
+
+    .wishlist-badge{
+        position:absolute;
+        top:12px;
+        right:12px;
+        background:#dc3545;
+        color:white;
+        padding:7px 14px;
+        border-radius:30px;
+        font-size:12px;
+        font-weight:600;
+        z-index:10;
+    }
+
+    /* ================= BODY ================= */
+
+    .card-body{
+        padding:22px;
+    }
+
+    .product-title{
+        font-size:18px;
+        font-weight:600;
+        color:#111;
+        min-height:50px;
+    }
+
+    .product-description{
+        font-size:14px;
+        color:#666;
+        min-height:45px;
+    }
+
+    .product-price{
+        color:#B12704;
+        font-size:24px;
+        font-weight:700;
+    }
+
+    /* ================= BUTTONS ================= */
+
+    .btn-custom{
+        border-radius:10px;
+        padding:10px;
+        font-weight:600;
+        transition:0.3s;
+    }
+
+    .btn-custom:hover{
+        transform:translateY(-2px);
+    }
+
+    .btn-cart{
+        background:#ffd814;
+        border:none;
+        color:black;
+    }
+
+    .btn-cart:hover{
+        background:#f7ca00;
+        color:black;
+    }
+
+    .btn-remove{
+        border:1px solid #dc3545;
+        color:#dc3545;
+    }
+
+    .btn-remove:hover{
+        background:#dc3545;
+        color:white;
+    }
+
+    /* ================= EMPTY ================= */
+
+    .empty-box{
+        background:white;
+        border-radius:20px;
+        padding:80px 30px;
+        box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .empty-icon{
+        font-size:80px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width:768px){
+
+        .wishlist-title{
+            font-size:28px;
+        }
+
+        .image-box{
+            height:220px;
+        }
+
+    }
+
+</style>
+
+<div class="container py-5">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="wishlist-header d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
+
+        <div>
+
+            <h1 class="wishlist-title">
+                My Wishlist ❤️
+            </h1>
+
+            <p class="wishlist-subtitle">
+                Save your favorite products and buy them later
+            </p>
+
+        </div>
+
+        <div class="wishlist-count">
+
+            {{ items.count }} Items
+
+        </div>
+
+    </div>
+
+    <!-- ================= PRODUCTS ================= -->
+
+    <div class="row g-4">
+
+        {% for item in items %}
+
+        <div class="col-xl-3 col-lg-4 col-md-6">
+
+            <div class="card wishlist-card">
+
+                <!-- IMAGE -->
+
+                <div class="image-box">
+
+                    <span class="wishlist-badge">
+
+                        ❤️ Wishlist
+
+                    </span>
+
+                    {% if item.product.image and item.product.image.name %}
+
+                        <img src="{{ item.product.image.url }}"
+                             class="product-image"
+                             alt="{{ item.product.name }}">
+
+                    {% elif item.product.image_url %}
+
+                        <img src="{{ item.product.image_url }}"
+                             class="product-image"
+                             alt="{{ item.product.name }}">
+
+                    {% else %}
+
+                        <img src="https://via.placeholder.com/500x500?text=No+Image"
+                             class="product-image"
+                             alt="No Image">
+
+                    {% endif %}
+
+                </div>
+
+                <!-- BODY -->
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="product-title">
+
+                        {{ item.product.name }}
+
+                    </h5>
+
+                    <p class="product-description">
+
+                        {{ item.product.description|truncatewords:12 }}
+
+                    </p>
+
+                    <!-- RATING -->
+
+                    <div class="mb-2 text-warning">
+
+                        ★★★★☆
+
+                        <small class="text-muted">
+                            (4.5)
+                        </small>
+
+                    </div>
+
+                    <!-- PRICE -->
+
+                    <div class="mb-4">
+
+                        <span class="product-price">
+
+                            ₹{{ item.product.price }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+
+                    <div class="mt-auto d-grid gap-2">
+
+                        <a href="{% url 'product_detail' item.product.id %}"
+                           class="btn btn-dark btn-custom">
+
+                            View Product
+
+                        </a>
+
+                        <a href="{% url 'add_to_cart' item.product.id %}"
+                           class="btn btn-cart btn-custom">
+
+                            Add to Cart
+
+                        </a>
+
+                        <a href="{% url 'remove_from_wishlist' item.product.id %}"
+                           class="btn btn-remove btn-custom">
+
+                            Remove
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <!-- ================= EMPTY ================= -->
+
+        <div class="col-12">
+
+            <div class="empty-box text-center">
+
+                <div class="empty-icon mb-4">
+
+                    💔
+
+                </div>
+
+                <h2 class="fw-bold mb-3">
+
+                    Your Wishlist is Empty
+
+                </h2>
+
+                <p class="text-muted mb-4">
+
+                    Browse products and add your favorite items here.
+
+                </p>
+
+                <a href="{% url 'home' %}"
+                   class="btn btn-warning btn-lg px-5 rounded-3 fw-bold">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

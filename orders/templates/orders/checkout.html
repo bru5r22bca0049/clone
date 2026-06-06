@@ -1,0 +1,453 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<style>
+
+body{
+    background:#eaeded;
+    font-family:Arial,sans-serif;
+}
+
+/* HEADER */
+
+.checkout-header{
+    background:white;
+    padding:20px 30px;
+    border-radius:12px;
+    margin-bottom:25px;
+    border:1px solid #ddd;
+}
+
+.checkout-title{
+    font-size:32px;
+    font-weight:700;
+    color:#111;
+}
+
+/* CARD */
+
+.checkout-card{
+    background:white;
+    border-radius:14px;
+    border:1px solid #ddd;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.card-header-custom{
+    background:#f7f7f7;
+    padding:18px 24px;
+    border-bottom:1px solid #ddd;
+    font-size:20px;
+    font-weight:700;
+}
+
+/* PRODUCT */
+
+.product-box{
+    padding:25px;
+}
+
+.product-image{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+}
+
+.product-title{
+    font-size:18px;
+    font-weight:600;
+    color:#0f1111;
+}
+
+.product-price{
+    font-size:26px;
+    font-weight:700;
+    color:#B12704;
+}
+
+.stock{
+    color:green;
+    font-size:14px;
+}
+
+/* FORM */
+
+.form-label{
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+.form-control{
+    border-radius:10px;
+    padding:12px;
+}
+
+.form-control:focus{
+    border-color:#ff9900;
+    box-shadow:0 0 0 .2rem rgba(255,153,0,.2);
+}
+
+/* SUMMARY */
+
+.summary-box{
+    background:white;
+    border-radius:14px;
+    border:1px solid #ddd;
+    padding:25px;
+    position:sticky;
+    top:20px;
+}
+
+.summary-title{
+    font-size:24px;
+    font-weight:700;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.total-price{
+    font-size:30px;
+    font-weight:700;
+    color:#B12704;
+}
+
+/* BUTTON */
+
+.btn-payment{
+    background:#FFD814;
+    border:none;
+    width:100%;
+    padding:14px;
+    border-radius:50px;
+    font-weight:700;
+    color:#111;
+    transition:.3s;
+}
+
+.btn-payment:hover{
+    background:#f7ca00;
+}
+
+.secure-box{
+    font-size:14px;
+    color:#565959;
+    margin-top:18px;
+    text-align:center;
+}
+
+</style>
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+
+    <div class="checkout-header">
+
+        <h1 class="checkout-title">
+            Checkout
+        </h1>
+
+    </div>
+
+    {% if cart_items %}
+
+    <form method="POST"
+          action="{% url 'place_order' %}"
+          id="checkout-form">
+
+        {% csrf_token %}
+
+        <div class="row">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-8">
+
+                <!-- SHIPPING -->
+
+                <div class="checkout-card">
+
+                    <div class="card-header-custom">
+
+                        Shipping Address
+
+                    </div>
+
+                    <div class="p-4">
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Full Name
+
+                                </label>
+
+                                <input type="text"
+                                       name="full_name"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Phone Number
+
+                                </label>
+
+                                <input type="text"
+                                       name="phone"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Address
+
+                            </label>
+
+                            <textarea name="address"
+                                      rows="4"
+                                      class="form-control"
+                                      required></textarea>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    City
+
+                                </label>
+
+                                <input type="text"
+                                       name="city"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Pincode
+
+                                </label>
+
+                                <input type="text"
+                                       name="pincode"
+                                       class="form-control"
+                                       required>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PRODUCTS -->
+
+                <div class="checkout-card">
+
+                    <div class="card-header-custom">
+
+                        Order Items
+
+                    </div>
+
+                    {% for item in cart_items %}
+
+                    <div class="product-box">
+
+                        <div class="row align-items-center">
+
+                            <div class="col-md-3 text-center">
+
+                                {% if item.product.image %}
+
+                                <img src="{{ item.product.image.url }}"
+                                     class="product-image">
+
+                                {% elif item.product.image_url %}
+
+                                <img src="{{ item.product.image_url }}"
+                                     class="product-image">
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <h5 class="product-title">
+
+                                    {{ item.product.name }}
+
+                                </h5>
+
+                                <p class="stock">
+
+                                    In Stock
+
+                                </p>
+
+                                <p>
+
+                                    Quantity:
+                                    {{ item.quantity }}
+
+                                </p>
+
+                            </div>
+
+                            <div class="col-md-3 text-end">
+
+                                <div class="product-price">
+
+                                    ₹{{ item.subtotal }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-4">
+
+                <div class="summary-box">
+
+                    <h3 class="summary-title mb-4">
+
+                        Order Summary
+
+                    </h3>
+
+                    <div class="summary-row">
+
+                        <span>Items Total</span>
+
+                        <span>
+                            ₹{{ total_price }}
+                        </span>
+
+                    </div>
+
+                    <div class="summary-row">
+
+                        <span>Delivery</span>
+
+                        <span class="text-success">
+
+                            FREE
+
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="summary-row">
+
+                        <strong>Total</strong>
+
+                        <strong class="total-price">
+
+                            ₹{{ total_price }}
+
+                        </strong>
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn-payment mt-3">
+
+                        Proceed To Payment
+
+                    </button>
+
+                    <div class="secure-box">
+
+                        🔒 Secure payment powered by Razorpay
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    {% else %}
+
+    <div class="checkout-card text-center p-5">
+
+        <h2>
+
+            Your cart is empty 🛒
+
+        </h2>
+
+        <p class="text-muted">
+
+            Add products before checkout
+
+        </p>
+
+        <a href="{% url 'home' %}"
+           class="btn btn-dark rounded-pill px-4">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+

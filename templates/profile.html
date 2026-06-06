@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.profile-banner{
+    background: linear-gradient(135deg, #111827, #1f2937);
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-banner::before{
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: -80px;
+    right: -80px;
+}
+
+.profile-card{
+    border: none;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.profile-img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.stat-card{
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.stat-card:hover{
+    transform: translateY(-5px);
+}
+
+.quick-link{
+    border-radius: 15px;
+    padding: 15px;
+    background: #ffffff;
+    transition: 0.3s;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.quick-link:hover{
+    background: black;
+    color: white;
+}
+
+</style>
+
+<div class="container py-5">
+
+    <!-- Profile Header -->
+    <div class="profile-banner text-white p-5 shadow-lg mb-5">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-2 text-center">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                     class="profile-img">
+
+            </div>
+
+            <div class="col-md-10 mt-4 mt-md-0">
+
+                <h1 class="fw-bold mb-2">
+                    {{ request.user.username }}
+                </h1>
+
+                <p class="mb-2 fs-5 text-light">
+                    {{ request.user.email }}
+                </p>
+
+                <span class="badge bg-success px-3 py-2 fs-6">
+                    Active Member
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+
+            <div class="stat-card text-center">
+
+                <div class="fs-1 mb-3">
+                    📦
+                </div>
+
+                <h5 class="text-muted">
+                    Total Orders
+                </h5>
+
+                <h2 class="fw-bold text-success">
+                    {{ orders.count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card text-center">
+
+                <div class="fs-1 mb-3">
+                    ❤️
+                </div>
+
+                <h5
+                 class="text-muted">
+                    Wishlist
+                </h5>
+
+                <h2 class="fw-bold text-danger">
+                    Favorites
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="stat-card text-center">
+
+                <div class="fs-1 mb-3">
+                    ⭐
+                </div>
+
+                <h5 class="text-muted">
+                    Account Status
+                </h5>
+
+                <h2 class="fw-bold text-primary">
+                    Premium
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card profile-card shadow-lg p-4">
+
+        <h3 class="fw-bold mb-4">
+            Quick Actions
+        </h3>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+
+                <a href="{% url 'orders' %}"
+                   class="quick-link d-block text-center">
+
+                    <div class="fs-2 mb-2">
+                        📦
+                    </div>
+
+                    <h5 class="fw-bold">
+                        My Orders
+                    </h5>
+
+                    <small>
+                        Track your orders
+                    </small>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{% url 'wishlist' %}"
+                   class="quick-link d-block text-center">
+
+                    <div class="fs-2 mb-2">
+                        ❤️
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Wishlist
+                    </h5>
+
+                    <small>
+                        Your favorite products
+                    </small>
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{% url 'logout' %}"
+                   class="quick-link d-block text-center">
+
+                    <div class="fs-2 mb-2">
+                        🚪
+                    </div>
+
+                    <h5 class="fw-bold">
+                        Logout
+                    </h5>
+
+                    <small>
+                        Secure sign out
+                    </small>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

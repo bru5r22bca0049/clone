@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Shipping Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <!-- Shipping Form -->
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <h2 class="fw-bold mb-2">
+                        Shipping Details
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        Enter your delivery address
+                    </p>
+
+                    <form method="POST" action="{% url 'place_order' %}">
+
+                        {% csrf_token %}
+
+                        <!-- Full Name -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="full_name"
+                                class="form-control rounded-3"
+                                placeholder="Enter your full name"
+                                required>
+
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Full Address
+                            </label>
+
+                            <textarea
+                                name="address"
+                                class="form-control rounded-3"
+                                rows="4"
+                                placeholder="Enter your full address"
+                                required></textarea>
+
+                        </div>
+
+                        <!-- City -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                name="city"
+                                class="form-control rounded-3"
+                                placeholder="Enter your city"
+                                required>
+
+                        </div>
+
+                        <!-- Pincode -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Pincode
+                            </label>
+
+                            <input
+                                type="text"
+                                name="pincode"
+                                class="form-control rounded-3"
+                                placeholder="Enter your pincode"
+                                required>
+
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                name="phone"
+                                class="form-control rounded-3"
+                                placeholder="Enter phone number"
+                                required>
+
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit"
+                                class="btn btn-dark w-100 py-3 rounded-3 fw-semibold">
+
+                            Continue to Place Order
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-5">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-4">
+                        Order Summary
+                    </h3>
+
+                    {% if cart_items %}
+
+                        {% for item in cart_items %}
+
+                        <div class="d-flex align-items-center mb-4">
+
+                            <!-- Product Image -->
+                            {% if item.product.image %}
+
+                               <img src="{{ item.product.image.url }}"
+                                    width="80"
+                                    class="rounded">
+
+                           {% elif item.product.image_url %}
+
+                               <img src="{{ item.product.image_url }}"
+                               width="80"
+                               class="rounded">
+
+                        {% else %}
+
+                             <img src="https://via.placeholder.com/80x80?text=No+Image"
+                             width="80"
+                             class="rounded">
+
+                        {% endif %}
+
+                            <!-- Product Info -->
+                            <div class="flex-grow-1">
+
+                                <h6 class="mb-1 fw-bold">
+                                    {{ item.product.name }}
+                                </h6>
+
+                                <small class="text-muted">
+                                    Qty: {{ item.quantity }}
+                                </small>
+
+                                <div class="fw-bold text-success mt-1">
+                                    ₹{{ item.subtotal }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endfor %}
+
+                        <hr>
+
+                        <!-- Total -->
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <h5 class="fw-bold mb-0">
+                                Total
+                            </h5>
+
+                            <h4 class="fw-bold text-success mb-0">
+                                ₹{{ total_price }}
+                            </h4>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-warning rounded-3">
+                            Your cart is empty.
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

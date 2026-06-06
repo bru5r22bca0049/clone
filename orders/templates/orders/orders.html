@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Orders
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background: #f5f5f5;
+    }
+
+    .order-card{
+        border-radius: 25px;
+        overflow: hidden;
+        transition: 0.3s;
+    }
+
+    .order-card:hover{
+        transform: translateY(-5px);
+    }
+
+    .product-img{
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .status-badge{
+        font-size: 14px;
+        padding: 10px 18px;
+        border-radius: 50px;
+    }
+
+</style>
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h1 class="fw-bold">
+            My Orders
+        </h1>
+
+        <span class="badge bg-dark fs-6 px-3 py-2">
+            {{ orders.count }} Orders
+        </span>
+
+    </div>
+
+    {% for order in orders %}
+
+    <div class="card border-0 shadow-sm mb-4 order-card">
+
+        <div class="card-body p-4">
+
+            <!-- TOP -->
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+
+                    <h4 class="fw-bold mb-1">
+                        Order #{{ order.id }}
+                    </h4>
+
+                    <small class="text-muted">
+                        Ordered Successfully
+                    </small>
+
+                </div>
+
+                <span class="badge bg-success status-badge">
+                    {{ order.status }}
+                </span>
+
+            </div>
+
+            <hr>
+
+            <!-- DETAILS -->
+
+            <div class="row g-4">
+
+                <div class="col-md-3">
+
+                    <small class="text-muted d-block mb-1">
+                        Total Amount
+                    </small>
+
+                    <h4 class="fw-bold text-success">
+                        ₹{{ order.total_price }}
+                    </h4>
+
+                </div>
+
+                <div class="col-md-3">
+
+                    <small class="text-muted d-block mb-1">
+                        Phone
+                    </small>
+
+                    <h6 class="fw-semibold">
+                        {{ order.phone }}
+                    </h6>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <small class="text-muted d-block mb-1">
+                        Delivery Address
+                    </small>
+
+                    <h6 class="fw-semibold">
+                        {{ order.address }}
+                    </h6>
+
+                </div>
+
+            </div>
+
+            <!-- ITEMS -->
+
+            <div class="mt-5">
+
+                <h5 class="fw-bold mb-4">
+                    Ordered Items
+                </h5>
+
+                {% for item in order.orderitem_set.all %}
+
+                <div class="d-flex justify-content-between align-items-center border rounded-4 p-3 mb-3 bg-light flex-wrap gap-3">
+
+                    <!-- LEFT -->
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <!-- IMAGE -->
+
+                        {% if item.product.image %}
+
+                            <img src="{{ item.product.image.url }}"
+                                 class="product-img">
+
+                        {% elif item.product.image_url %}
+
+                            <img src="{{ item.product.image_url }}"
+                                 class="product-img">
+
+                        {% else %}
+
+                            <img src="https://via.placeholder.com/70x70?text=No+Image"
+                                 class="product-img">
+
+                        {% endif %}
+
+                        <!-- INFO -->
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                {{ item.product.name }}
+                            </h6>
+
+                            <small class="text-muted">
+                                Quantity : {{ item.quantity }}
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT -->
+
+                    <div class="text-end">
+
+                        <h5 class="fw-bold text-success mb-0">
+                            ₹{{ item.price }}
+                        </h5>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png"
+             width="120"
+             class="mx-auto mb-4">
+
+        <h3 class="fw-bold">
+            No Orders Yet
+        </h3>
+
+        <p class="text-muted">
+            Start shopping and place your first order.
+        </p>
+
+        <a href="/"
+           class="btn btn-dark rounded-pill px-4 mt-2">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
