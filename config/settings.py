@@ -1,6 +1,8 @@
 """
 Django settings for clone project.
 """
+import os
+import dj_database_url
  
 from pathlib import Path
 
@@ -73,10 +75,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # DATABASE
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        os.environ.get("DATABASE_URL")
+    )
 }
 
 
@@ -118,8 +119,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # MEDIA FILES
-
-import os
 
 
 MEDIA_URL = '/media/'
