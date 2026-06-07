@@ -68,7 +68,7 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'clone.wsgi.application'
 
 
 # DATABASE
