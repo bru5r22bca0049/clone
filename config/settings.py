@@ -45,7 +45,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = 'clone.urls'
+ROOT_URLCONF = 'config.urls'
 
 
 # TEMPLATES
@@ -68,7 +68,7 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'clone.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # DATABASE
